@@ -9,5 +9,4 @@ public class UrlittleApplication {
 		EnvLoader.load();
 		SpringApplication.run(com.vhtor.urlittle.UrlittleApplication.class, args);
 	}
-
 }

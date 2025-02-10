@@ -10,7 +10,6 @@ public record UrlMappingRequest(
   String shortKey,
   String longUrl,
   User user,
-  Instant createdAt,
   Instant expiration,
   Long clickCount
 ) implements From<UrlMapping> {
@@ -20,7 +19,6 @@ public record UrlMappingRequest(
       .shortKey(shortKey())
       .longUrl(longUrl())
       .user(user())
-      .createdAt(createdAt())
       .expiration(expiration())
       .clickCount(clickCount())
       .build();
