@@ -2,7 +2,7 @@ package com.vhtor.urlittle.validator;
 
 import com.vhtor.urlittle.domain.User;
 import com.vhtor.urlittle.exception.BusinessRuleException;
-import com.vhtor.urlittle.request.UrlMappingRequest;
+import com.vhtor.urlittle.dto.UrlMappingDTO;
 import com.vhtor.urlittle.util.TestUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,7 +23,7 @@ class UrlRequestValidatorTest {
   @Test
   void validateShortKey_MustValidateRequiredField() {
     // ARRANGE
-    final var request = new UrlMappingRequest(
+    final var request = new UrlMappingDTO(
         "",
         "https://github.com",
         new User(),
@@ -39,7 +39,7 @@ class UrlRequestValidatorTest {
   @Test
   void validateShortKey_MustValidateCharacterLength_Invalid() {
     // ARRANGE
-    final var request = new UrlMappingRequest(
+    final var request = new UrlMappingDTO(
         "abcd",
         "https://github.com",
         new User(),
@@ -55,7 +55,7 @@ class UrlRequestValidatorTest {
   @Test
   void validateShortKey_MustValidateCharacterLength_Valid() {
     // ARRANGE
-    final var request = new UrlMappingRequest(
+    final var request = new UrlMappingDTO(
         "abcde",
         "https://github.com",
         new User(),
@@ -70,7 +70,7 @@ class UrlRequestValidatorTest {
   @Test
   void validateShortKey_MustValidatePattern_Invalid() {
     // ARRANGE
-    final var request = new UrlMappingRequest(
+    final var request = new UrlMappingDTO(
         "abcde@",
         "https://github.com",
         new User(),
@@ -86,7 +86,7 @@ class UrlRequestValidatorTest {
   @Test
   void validateShortKey_MustValidatePattern_Valid() {
     // ARRANGE
-    final var request = new UrlMappingRequest(
+    final var request = new UrlMappingDTO(
         "abcde_",
         "https://github.com",
         new User(),
@@ -101,7 +101,7 @@ class UrlRequestValidatorTest {
   @Test
   void validateLongUrl_MustValidateRequiredField() {
     // ARRANGE
-    final var request = new UrlMappingRequest(
+    final var request = new UrlMappingDTO(
         "abcde",
         "",
         new User(),
@@ -117,7 +117,7 @@ class UrlRequestValidatorTest {
   @Test
   void validateLongUrl_MustValidateUrlLength_Invalid() {
     // ARRANGE
-    final var request = new UrlMappingRequest(
+    final var request = new UrlMappingDTO(
         "abcde",
         "a".repeat(2049),
         new User(),
@@ -133,7 +133,7 @@ class UrlRequestValidatorTest {
   @Test
   void validateLongUrl_MustValidateUrlLength_Valid() {
     // ARRANGE
-    final var request = new UrlMappingRequest(
+    final var request = new UrlMappingDTO(
         "abcde",
         TestUtils.reallyLongUrl(),
         new User(),
@@ -148,7 +148,7 @@ class UrlRequestValidatorTest {
   @Test
   void validateLongURL_MustValidatePattern_Invalid() {
     // ARRANGE
-    final var request = new UrlMappingRequest(
+    final var request = new UrlMappingDTO(
         "abcde",
         "a".repeat(2048),
         new User(),
@@ -165,7 +165,7 @@ class UrlRequestValidatorTest {
   @Test
   void validateExpiration_MustValidatePastExpirationDate() {
     // ARRANGE
-    final var request = new UrlMappingRequest(
+    final var request = new UrlMappingDTO(
         "abcde",
         "https://github.com",
         new User(),
@@ -181,7 +181,7 @@ class UrlRequestValidatorTest {
   @Test
   void validateClickCount_MustValidateNegativeClickCount() {
     // ARRANGE
-    final var request = new UrlMappingRequest(
+    final var request = new UrlMappingDTO(
         "abcde",
         "https://github.com",
         new User(),

@@ -1,4 +1,4 @@
-package com.vhtor.urlittle.request;
+package com.vhtor.urlittle.dto;
 
 import com.vhtor.urlittle.domain.UrlMapping;
 import com.vhtor.urlittle.domain.User;
@@ -6,7 +6,7 @@ import com.vhtor.urlittle.util.From;
 
 import java.time.Instant;
 
-public record UrlMappingRequest(
+public record UrlMappingDTO(
   String shortKey,
   String longUrl,
   User user,

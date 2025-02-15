@@ -61,7 +61,7 @@ class UrlMappingControllerTest {
 
   @BeforeEach
   void setup() {
-    when(urlMappingService.createShortKey(any())).thenReturn("abc123");
+    when(urlMappingService.generateShortKey(any())).thenReturn("abc123");
   }
 
   @Test
@@ -70,7 +70,7 @@ class UrlMappingControllerTest {
     final var request = new ShortKeyRequest("https://example.com", 6);
     final var expectedShortKey = "abc123";
 
-    when(urlMappingService.createShortKey(any())).thenReturn(expectedShortKey);
+    when(urlMappingService.generateShortKey(any())).thenReturn(expectedShortKey);
 
     mockMvc.perform(get("/api/url/short-key")
             .contentType(MediaType.APPLICATION_JSON)

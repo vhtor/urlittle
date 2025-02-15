@@ -57,7 +57,7 @@ class UrlMappingServiceTest {
   }
 
   @Test
-  void createShortKey_MustReturnExistingShortKeyForMappedUrl() {
+  void generateShortKey_MustReturnExistingShortKeyForMappedUrl() {
     // ARRANGE
     final var existingMapping = UrlMapping.builder()
       .shortKey("shortKey")
@@ -69,14 +69,14 @@ class UrlMappingServiceTest {
 
     // ACT
     final var shortKeyRequest = new ShortKeyRequest(existingMapping.getLongUrl(), 6);
-    final var shortKey = urlMappingService.createShortKey(shortKeyRequest);
+    final var shortKey = urlMappingService.generateShortKey(shortKeyRequest);
 
     // ASSERT
     assert shortKey.equals(existingMapping.getShortKey());
   }
 
   @Test
-  void createShortKey_MustGenerateMoreThanOnceIfShortKeyAlreadyExists() {
+  void generateShortKey_MustGenerateMoreThanOnceIfShortKeyAlreadyExists() {
     // ARRANGE
     final var existingShortKey = urlMappingService.generateShortKey(6);
     final var existingMapping = UrlMapping.builder()
@@ -94,7 +94,7 @@ class UrlMappingServiceTest {
 
     // ACT
     final var shortKeyRequest = new ShortKeyRequest(existingMapping.getLongUrl(), 6);
-    final var generatedShortKey = urlMappingService.createShortKey(shortKeyRequest);
+    final var generatedShortKey = urlMappingService.generateShortKey(shortKeyRequest);
 
     // ASSERT
     assertNotEquals(generatedShortKey, existingMapping.getShortKey());
@@ -102,7 +102,7 @@ class UrlMappingServiceTest {
   }
 
   @Test
-  void createShortKey_MustGenerateOnlyOnceIfShortKeyDoesNotExist() {
+  void generateShortKey_MustGenerateOnlyOnceIfShortKeyDoesNotExist() {
     // ARRANGE
     final var shortKey = "shortKey";
     final var longUrl = "longUrl";
@@ -115,7 +115,7 @@ class UrlMappingServiceTest {
 
     // ACT
     final var shortKeyRequest = new ShortKeyRequest(longUrl, 6);
-    final var generatedShortKey = urlMappingService.createShortKey(shortKeyRequest);
+    final var generatedShortKey = urlMappingService.generateShortKey(shortKeyRequest);
 
     // ASSERT
     assertEquals(shortKey, generatedShortKey);

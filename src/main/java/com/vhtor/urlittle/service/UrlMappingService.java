@@ -2,16 +2,18 @@ package com.vhtor.urlittle.service;
 
 import com.vhtor.urlittle.domain.UrlMapping;
 import com.vhtor.urlittle.request.ShortKeyRequest;
-import com.vhtor.urlittle.request.UrlMappingRequest;
+import com.vhtor.urlittle.dto.UrlMappingDTO;
 import com.vhtor.urlittle.strategy.DatabaseStrategy;
 import com.vhtor.urlittle.validator.ShortKeyRequestValidator;
 import com.vhtor.urlittle.validator.UrlRequestValidator;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.Random;
 
 @Service
+@Transactional(readOnly = true)
 public class UrlMappingService {
   private static final String ALLOWED_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-";
   private final ShortKeyRequestValidator shortKeyRequestValidator;
@@ -27,18 +29,11 @@ public class UrlMappingService {
     this.databaseStrategy = databaseStrategy;
   }
 
-  public UrlMapping save(UrlMappingRequest request) {
-    urlRequestValidator.validate(request);
-
-    final var urlMapping = request.from();
-    return this.databaseStrategy.save(urlMapping);
-  }
-
   public Optional<UrlMapping> findByShortKey(String shortkey) {
     return databaseStrategy.findByShortKey(shortkey);
   }
 
-  public String createShortKey(ShortKeyRequest request) {
+  public String generateShortKey(ShortKeyRequest request) {
     shortKeyRequestValidator.validate(request);
 
     // If the long URL already has a short key, return it
@@ -54,6 +49,21 @@ public class UrlMappingService {
     } while (databaseStrategy.findByShortKey(shortKey).isPresent());
 
     return shortKey;
+  }
+
+  @Transactional
+  public UrlMappingDTO createUrlMapping(UrlMappingDTO request) {
+    urlRequestValidator.validate(request);
+
+    final var entity = request.from();
+    final var urlMapping = this.databaseStrategy.save(entity);
+
+    return new UrlMappingDTO(urlMapping.getShortKey(),
+      urlMapping.getLongUrl(),
+      urlMapping.getUser(),
+      urlMapping.getExpiration(),
+      urlMapping.getClickCount()
+    );
   }
 
   public String generateShortKey(int length) {

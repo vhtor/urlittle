@@ -1,7 +1,7 @@
 package com.vhtor.urlittle.validator;
 
 import com.vhtor.urlittle.exception.BusinessRuleException;
-import com.vhtor.urlittle.request.UrlMappingRequest;
+import com.vhtor.urlittle.dto.UrlMappingDTO;
 import com.vhtor.urlittle.util.ValidatorUtils;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ public class UrlRequestValidator {
   private static final Pattern URL_PATTERN = Pattern.compile("^(https?|ftp)://[^\\s/$.?#].\\S*$");
   private static final int LONG_URL_MAX_SIZE = 2048;
 
-  public void validate(UrlMappingRequest request) {
+  public void validate(UrlMappingDTO request) {
     validateShortKey(request.shortKey());
     validateLongUrl(request.longUrl());
     validateExpiration(request.expiration());
