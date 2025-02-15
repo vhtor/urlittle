@@ -8,4 +8,6 @@ public interface DatabaseStrategy {
   UrlMapping save(UrlMapping urlMapping);
 
   Optional<UrlMapping> findByShortKey(String shortKey);
+
+  Optional<UrlMapping> findByLongUrl(String longUrl);
 }

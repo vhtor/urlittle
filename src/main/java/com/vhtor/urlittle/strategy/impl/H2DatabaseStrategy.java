@@ -26,4 +26,9 @@ public class H2DatabaseStrategy implements DatabaseStrategy {
   public Optional<UrlMapping> findByShortKey(String shortKey) {
     return this.urlMappingRepository.findUrlMappingByShortKey(shortKey);
   }
+
+  @Override
+  public Optional<UrlMapping> findByLongUrl(String longUrl) {
+    return this.urlMappingRepository.findUrlMappingByLongUrl(longUrl);
+  }
 }
