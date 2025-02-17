@@ -2,6 +2,7 @@ package com.vhtor.urlittle.validator;
 
 import com.vhtor.urlittle.exception.BusinessRuleException;
 import com.vhtor.urlittle.request.ShortKeyRequest;
+import com.vhtor.urlittle.util.ValidatorUtils;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,6 +17,10 @@ public class ShortKeyRequestValidator {
   }
 
   public void validateLength(int length) {
+    if (ValidatorUtils.isEmpty(length)) {
+      throw new BusinessRuleException("Length of the short key must be provided");
+    }
+
     if (length < MIN_LENGTH || length > MAX_LENGTH) {
       throw new BusinessRuleException("Length of the short key must be between 5 and 10");
     }
