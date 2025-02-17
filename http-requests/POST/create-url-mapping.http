@@ -1,0 +1,7 @@
+POST http://localhost:8080/api/url
+Content-Type: application/json
+
+{
+  "shortKey": "abc123",
+  "longUrl": "https://www.youtube.com/watch?v=-mtO1nVb-jc"
+}

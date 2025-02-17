@@ -1,8 +1,10 @@
 package com.vhtor.urlittle.validator;
 
 import com.vhtor.urlittle.exception.BusinessRuleException;
-import com.vhtor.urlittle.dto.UrlMappingDTO;
+import com.vhtor.urlittle.request.UrlMappingRequest;
+import com.vhtor.urlittle.strategy.DatabaseStrategy;
 import com.vhtor.urlittle.util.ValidatorUtils;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -14,11 +16,16 @@ public class UrlRequestValidator {
   private static final Pattern URL_PATTERN = Pattern.compile("^(https?|ftp)://[^\\s/$.?#].\\S*$");
   private static final int LONG_URL_MAX_SIZE = 2048;
 
-  public void validate(UrlMappingDTO request) {
+  private final DatabaseStrategy databaseStrategy;
+
+  public UrlRequestValidator(DatabaseStrategy databaseStrategy) {
+    this.databaseStrategy = databaseStrategy;
+  }
+
+  public void validate(UrlMappingRequest request) {
     validateShortKey(request.shortKey());
     validateLongUrl(request.longUrl());
     validateExpiration(request.expiration());
-    validateClickCount(request.clickCount());
   }
 
   public void validateShortKey(String shortKey) {
@@ -32,6 +39,12 @@ public class UrlRequestValidator {
 
     if (!SHORT_KEY_PATTERN.matcher(shortKey).matches()) {
       throw new BusinessRuleException("Short key can only contain alphanumeric characters, underscores and hyphens");
+    }
+
+    final var existingMapping = databaseStrategy.findByShortKey(shortKey);
+
+    if (existingMapping.isPresent()) {
+      throw new DuplicateKeyException("Short key already exists, please choose another one");
     }
   }
 
@@ -52,12 +65,6 @@ public class UrlRequestValidator {
   public void validateExpiration(Instant expiration) {
     if (ValidatorUtils.isNotEmpty(expiration) && expiration.isBefore(Instant.now())) {
       throw new IllegalArgumentException("Expiration date must be greater than current date");
-    }
-  }
-
-  public void validateClickCount(Long clickCount) {
-    if (ValidatorUtils.isNotEmpty(clickCount) && clickCount < 0) {
-      throw new IllegalArgumentException("Click count cannot be negative");
     }
   }
 }

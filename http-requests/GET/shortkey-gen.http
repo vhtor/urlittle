@@ -1,0 +1,31 @@
+###
+# curl -X GET 
+#  http://localhost:8080/api/url/short-key 
+#  -H 'Content-Type: application/json' 
+#  -d '{
+#    "longUrl": "https://example.com",
+#    "length": 6
+#  }'
+GET http://localhost:8080/api/url/short-key
+Content-Type: application/json
+
+{
+  "longUrl": "https://example.com",
+  "length": 6
+}
+
+<> 2025-02-17T133228.200.txt
+<> 2025-02-17T133227.200.txt
+<> 2025-02-17T133226-1.200.txt
+<> 2025-02-17T133226.200.txt
+<> 2025-02-17T133225.200.txt
+<> 2025-02-17T133224-1.200.txt
+<> 2025-02-17T133224.200.txt
+<> 2025-02-17T133223.200.txt
+<> 2025-02-17T133222-1.200.txt
+<> 2025-02-17T133222.200.txt
+<> 2025-02-17T133218.200.txt
+<> 2025-02-17T133217-1.200.txt
+<> 2025-02-17T133217.200.txt
+<> 2025-02-17T133214.200.txt
+

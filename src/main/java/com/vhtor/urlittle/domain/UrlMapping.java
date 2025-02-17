@@ -2,10 +2,7 @@ package com.vhtor.urlittle.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import java.time.Instant;
@@ -20,10 +17,6 @@ public class UrlMapping {
   @Column(name = "long_url")
   private String longUrl;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id")
-  private User user;
-
   @Column(name = "created_at")
   private Instant createdAt = Instant.now();
 
@@ -36,10 +29,9 @@ public class UrlMapping {
   public UrlMapping() {
   }
 
-  public UrlMapping(String shortKey, String longUrl, User user, Instant createdAt, Instant expiration, Long clickCount) {
+  public UrlMapping(String shortKey, String longUrl, Instant createdAt, Instant expiration, Long clickCount) {
     this.shortKey = shortKey;
     this.longUrl = longUrl;
-    this.user = user;
     this.createdAt = createdAt;
     this.expiration = expiration;
     this.clickCount = clickCount;
@@ -59,11 +51,6 @@ public class UrlMapping {
     return this;
   }
 
-  public UrlMapping user(User user) {
-    this.user = user;
-    return this;
-  }
-
   public UrlMapping createdAt(Instant createdAt) {
     this.createdAt = createdAt;
     return this;
@@ -80,7 +67,7 @@ public class UrlMapping {
   }
 
   public UrlMapping build() {
-    return new UrlMapping(shortKey, longUrl, user, createdAt, expiration, clickCount);
+    return new UrlMapping(shortKey, longUrl, createdAt, expiration, clickCount);
   }
 
   public Instant getExpiration() {
@@ -105,14 +92,6 @@ public class UrlMapping {
 
   public void setLongUrl(String longUrl) {
     this.longUrl = longUrl;
-  }
-
-  public User getUser() {
-    return user;
-  }
-
-  public void setUser(User user) {
-    this.user = user;
   }
 
   public Instant getCreatedAt() {

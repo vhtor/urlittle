@@ -1,15 +1,14 @@
 package com.vhtor.urlittle.service;
 
-import com.vhtor.urlittle.domain.UrlMapping;
-import com.vhtor.urlittle.request.ShortKeyRequest;
 import com.vhtor.urlittle.dto.UrlMappingDTO;
+import com.vhtor.urlittle.request.ShortKeyRequest;
+import com.vhtor.urlittle.request.UrlMappingRequest;
 import com.vhtor.urlittle.strategy.DatabaseStrategy;
 import com.vhtor.urlittle.validator.ShortKeyRequestValidator;
 import com.vhtor.urlittle.validator.UrlRequestValidator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -27,10 +26,6 @@ public class UrlMappingService {
     this.shortKeyRequestValidator = shortKeyRequestValidator;
     this.urlRequestValidator = urlRequestValidator;
     this.databaseStrategy = databaseStrategy;
-  }
-
-  public Optional<UrlMapping> findByShortKey(String shortkey) {
-    return databaseStrategy.findByShortKey(shortkey);
   }
 
   public String generateShortKey(ShortKeyRequest request) {
@@ -52,7 +47,7 @@ public class UrlMappingService {
   }
 
   @Transactional
-  public UrlMappingDTO createUrlMapping(UrlMappingDTO request) {
+  public UrlMappingDTO createUrlMapping(UrlMappingRequest request) {
     urlRequestValidator.validate(request);
 
     final var entity = request.from();
@@ -60,7 +55,6 @@ public class UrlMappingService {
 
     return new UrlMappingDTO(urlMapping.getShortKey(),
       urlMapping.getLongUrl(),
-      urlMapping.getUser(),
       urlMapping.getExpiration(),
       urlMapping.getClickCount()
     );

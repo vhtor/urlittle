@@ -1,7 +1,8 @@
 package com.vhtor.urlittle.controller;
 
-import com.vhtor.urlittle.request.ShortKeyRequest;
 import com.vhtor.urlittle.dto.UrlMappingDTO;
+import com.vhtor.urlittle.request.ShortKeyRequest;
+import com.vhtor.urlittle.request.UrlMappingRequest;
 import com.vhtor.urlittle.service.UrlMappingService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +25,7 @@ public class UrlMappingController {
   }
 
   @PostMapping
-  public UrlMappingDTO createUrlMapping(@RequestBody UrlMappingDTO request) {
+  public UrlMappingDTO createUrlMapping(@RequestBody UrlMappingRequest request) {
     return urlMappingService.createUrlMapping(request);
   }
 }
